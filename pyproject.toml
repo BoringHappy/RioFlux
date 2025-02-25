@@ -1,0 +1,25 @@
+[project]
+name = "rioflux"
+version = "0.1.0"
+description = "A simple agent flow engine for Python"
+requires-python = ">=3.13"
+authors = [
+    { name = "Veinkr Finch", email = "veinkr.finch@gmail.com" }
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+dependencies = []
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v --cov=rioflux --cov-report=term-missing"
