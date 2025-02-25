@@ -1,11 +1,12 @@
 [project]
 name = "rioflux"
-version = "0.1.0"
+version = "0.1.2"
 description = "A simple agent flow engine for Python"
 requires-python = ">=3.13"
 authors = [
     { name = "Veinkr Finch", email = "veinkr.finch@gmail.com" }
 ]
+readme = "README.md"
 
 [build-system]
 requires = ["hatchling"]

@@ -1,30 +1,32 @@
 # RioFlux
 
-一个基于 DAG（有向无环图）的 Agent 工作流引擎，用于构建和执行复杂的任务流程。
+A DAG (Directed Acyclic Graph) based Agent workflow engine for building and executing complex task processes.
 
-## 特性
+[English](README.md) | [简体中文](README_zh-CN.md)
 
-- 基于 DAG 的任务编排
-- 灵活的任务依赖关系管理
-- 支持条件分支控制
-- 任务间数据共享机制
-- Python 原生任务支持
-- Agent 任务支持（开发中）
+## Features
 
-## 安装
+- DAG-based task orchestration
+- Flexible task dependency management
+- Conditional branching control
+- Inter-task data sharing mechanism
+- Native Python task support
+- Agent task support (in development)
+
+## Installation
 
 ```bash
 pip install rioflux
 ```
 
-## 快速开始
+## Quick Start
 
-以下是一个简单的示例，展示如何使用 RioFlux 创建和执行一个包含分支逻辑的工作流：
+Here's a simple example showing how to create and execute a workflow with branching logic using RioFlux:
 
 ```python
 from rioflux import DAG, PythonOperator, BranchPythonOperator
 
-# 定义任务函数
+# Define task functions
 def load_data(context):
     data = {"value": 5}
     context.set_var("loaded_data", data)
@@ -38,12 +40,12 @@ def process_low(context):
     data = context.get_var("loaded_data")
     return f"Processing low value: {data['value']}"
 
-# 定义分支条件
+# Define branch condition
 def branch_func(context):
     data = context.get_var("loaded_data")
     return "process_high" if data["value"] > 10 else "process_low"
 
-# 创建 DAG 并定义任务
+# Create DAG and define tasks
 with DAG(dag_id="example_dag") as dag:
     load_task = PythonOperator(
         task_id="load_task",
@@ -65,62 +67,62 @@ with DAG(dag_id="example_dag") as dag:
         python_callable=process_low
     )
     
-    # 定义任务依赖
+    # Define task dependencies
     load_task >> branch_task >> [high_task, low_task]
 
-# 执行 DAG
+# Execute DAG
 dag.run()
 ```
 
-## 核心组件
+## Core Components
 
 ### BaseOperator
-- 所有具体任务的基类
-- 提供任务 ID 管理
-- 实现任务依赖关系的管理
-- 支持 `>>` 和 `<<` 操作符来定义任务依赖
+- Base class for all concrete tasks
+- Provides task ID management
+- Implements task dependency management
+- Supports `>>` and `<<` operators for defining dependencies
 
 ### DAG
-- 管理任务集合和依赖关系
-- 提供任务执行的调度逻辑
-- 维护任务状态
-- 管理上下文数据
+- Manages task collections and dependencies
+- Provides task execution scheduling logic
+- Maintains task states
+- Manages context data
 
 ### DAGContext
-- 提供任务间数据共享机制
-- 存储任务执行结果
-- 支持变量的设置和获取
+- Provides inter-task data sharing mechanism
+- Stores task execution results
+- Supports variable setting and retrieval
 
-### 内置操作符
-- **PythonOperator**: 执行 Python 可调用对象
-- **BranchPythonOperator**: 实现条件分支控制
-- **BaseAgent**: Agent 任务基类（开发中）
+### Built-in Operators
+- **PythonOperator**: Executes Python callables
+- **BranchPythonOperator**: Implements conditional branching control
+- **BaseAgent**: Base class for Agent tasks (in development)
 
-## 最佳实践
+## Best Practices
 
-1. **任务粒度**
-   - 保持任务功能单一
-   - 合理划分任务边界
-   - 避免任务间过度耦合
+1. **Task Granularity**
+   - Keep task functionality singular
+   - Properly define task boundaries
+   - Avoid excessive coupling between tasks
 
-2. **错误处理**
-   - 在任务中妥善处理异常
-   - 提供清晰的错误信息
-   - 考虑添加重试机制
+2. **Error Handling**
+   - Handle exceptions properly in tasks
+   - Provide clear error messages
+   - Consider adding retry mechanisms
 
-3. **上下文使用**
-   - 合理使用上下文共享数据
-   - 避免在上下文中存储过大数据
-   - 及时清理不需要的上下文数据
+3. **Context Usage**
+   - Use context data sharing judiciously
+   - Avoid storing large data in context
+   - Clean up unnecessary context data timely
 
-## 开发计划
+## Development Roadmap
 
-- 支持任务并行执行
-- 添加任务重试机制
-- 提供任务执行监控和可视化
-- 支持子 DAG
-- 添加更多类型的操作符
+- Support parallel task execution
+- Add task retry mechanism
+- Provide task execution monitoring and visualization
+- Support sub-DAGs
+- Add more types of operators
 
-## 要求
+## Requirements
 
 - Python >= 3.13
