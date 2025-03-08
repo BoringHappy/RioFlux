@@ -7,6 +7,12 @@ authors = [
     { name = "Veinkr Finch", email = "veinkr.finch@gmail.com" }
 ]
 readme = "README.md"
+license = { file = "LICENSE" }
+dependencies = [
+    "loguru>=0.7.3",
+    "openai>=1.64.0",
+    "requests>=2.32.3",
+]
 
 [build-system]
 requires = ["hatchling"]
